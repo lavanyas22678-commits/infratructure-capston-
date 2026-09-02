@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - Public Infrastructure</title>
+
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+
+        <div class="logo">
+            Public Infrastructure - Admin
+        </div>
+
+        <nav>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="admin.html" class="active">
+                Admin
+            </a>
+
+            <a href="index.html">
+                Logout
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- Main Content -->
+    <main class="admin-page">
+
+        <div class="admin-container">
+
+            <!-- Heading -->
+            <div class="admin-heading">
+
+                <h1>
+                    Manage Reports
+                </h1>
+
+                <p>
+                    View submitted infrastructure reports
+                    and update their status.
+                </p>
+
+            </div>
+
+
+            <!-- Statistics -->
+            <div class="statistics">
+
+                <div class="stat-card">
+
+                    <h3>Total Reports</h3>
+
+                    <p id="totalReports">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <h3>Submitted</h3>
+
+                    <p id="submittedReports">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <h3>In Progress</h3>
+
+                    <p id="progressReports">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <h3>Resolved</h3>
+
+                    <p id="resolvedReports">
+                        0
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Reports Section -->
+            <section class="reports-section">
+
+                <h2>
+                    Submitted Reports
+                </h2>
+
+
+                <!-- Reports will be displayed here -->
+
+                <div id="adminReports">
+
+                    <p class="loading">
+                        Loading reports...
+                    </p>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 Public Infrastructure Reporting System
+        </p>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script src="./script.js"></script>
+
+</body>
+
+</html>

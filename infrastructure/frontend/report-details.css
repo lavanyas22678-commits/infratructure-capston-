@@ -1,0 +1,354 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #f4f7fb;
+    color: #333;
+}
+
+/* Navigation Bar */
+.navbar {
+    width: 100%;
+    height: 70px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 50px;
+
+    background-color: #1f4e79;
+    color: white;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 25px;
+}
+
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+
+    font-size: 15px;
+
+    padding: 8px 12px;
+
+    border-radius: 5px;
+}
+
+.navbar nav a:hover,
+.navbar nav a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Details Page */
+.details-page {
+    min-height: calc(100vh - 130px);
+
+    padding: 50px 20px;
+}
+
+.details-container {
+    width: 100%;
+    max-width: 850px;
+
+    margin: auto;
+}
+
+/* Page Heading */
+.page-heading {
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.page-heading h1 {
+    color: #1f4e79;
+
+    font-size: 32px;
+
+    margin-bottom: 10px;
+}
+
+.page-heading p {
+    color: #666;
+
+    font-size: 16px;
+}
+
+/* Report Details Card */
+.report-details-card {
+    background-color: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+
+    margin-bottom: 30px;
+}
+
+.report-title {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid #eee;
+}
+
+.report-title h2 {
+    color: #1f4e79;
+
+    font-size: 22px;
+}
+
+/* Status Badge */
+.status {
+    padding: 7px 15px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+.status.pending {
+    background-color: #fff3cd;
+
+    color: #856404;
+}
+
+/* Details Information */
+.details-info {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+}
+
+.detail-item {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.detail-item strong {
+    color: #333;
+
+    font-size: 14px;
+}
+
+.detail-item span {
+    color: #666;
+
+    line-height: 1.5;
+}
+
+/* Status Section */
+.status-section {
+    background-color: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.status-section h2 {
+    color: #1f4e79;
+
+    margin-bottom: 30px;
+}
+
+/* Timeline */
+.status-timeline {
+    position: relative;
+
+    padding-left: 20px;
+}
+
+.timeline-item {
+    position: relative;
+
+    display: flex;
+
+    gap: 20px;
+
+    padding-bottom: 35px;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+/* Timeline Line */
+.timeline-item:not(:last-child)::before {
+    content: "";
+
+    position: absolute;
+
+    left: 18px;
+    top: 40px;
+
+    width: 3px;
+    height: calc(100% - 5px);
+
+    background-color: #ddd;
+}
+
+/* Timeline Dot */
+.timeline-dot {
+    position: relative;
+    z-index: 1;
+
+    min-width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    background-color: #ddd;
+
+    color: #666;
+
+    font-weight: bold;
+}
+
+/* Completed Step */
+.timeline-item.completed .timeline-dot {
+    background-color: #1f4e79;
+
+    color: white;
+}
+
+/* Current Step */
+.timeline-item.current .timeline-dot {
+    background-color: #1f4e79;
+
+    color: white;
+}
+
+/* Timeline Content */
+.timeline-content h3 {
+    color: #333;
+
+    margin-bottom: 6px;
+}
+
+.timeline-content p {
+    color: #666;
+
+    line-height: 1.5;
+}
+
+/* Back Button */
+.back-section {
+    text-align: center;
+
+    margin-top: 30px;
+}
+
+.back-button {
+    display: inline-block;
+
+    padding: 11px 22px;
+
+    background-color: #1f4e79;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+
+    font-weight: bold;
+}
+
+.back-button:hover {
+    background-color: #163a5c;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+
+    padding: 20px;
+
+    background-color: #1f4e79;
+
+    color: white;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .navbar nav {
+        gap: 5px;
+    }
+
+    .navbar nav a {
+        font-size: 12px;
+
+        padding: 6px 7px;
+    }
+
+    .details-page {
+        padding: 30px 15px;
+    }
+
+    .report-details-card,
+    .status-section {
+        padding: 22px;
+    }
+
+    .details-info {
+        grid-template-columns: 1fr;
+    }
+
+    .report-title {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+    .page-heading h1 {
+        font-size: 26px;
+    }
+}

@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report an Issue</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            min-height: 100vh;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            background: #173b63;
+            color: white;
+            padding: 16px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .navbar nav a {
+            color: white;
+            text-decoration: none;
+
+            padding: 9px 12px;
+
+            border-radius: 5px;
+
+            font-size: 14px;
+        }
+
+        .navbar nav a:hover,
+        .navbar nav a.active {
+            background: #2d6094;
+        }
+
+
+        /* ================= PAGE ================= */
+
+        .page {
+            min-height: calc(100vh - 70px);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 40px 20px;
+        }
+
+
+        /* ================= CARD ================= */
+
+        .report-card {
+            width: 100%;
+            max-width: 650px;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .report-card h1 {
+            text-align: center;
+
+            color: #173b63;
+
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #777;
+
+            margin-bottom: 30px;
+        }
+
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+
+            outline: none;
+
+            border-color: #173b63;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+
+        /* ================= LOCATION ================= */
+
+        #detectLocationBtn {
+
+            margin-top: 10px;
+
+            padding: 11px 16px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #e7eef6;
+
+            color: #173b63;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        #detectLocationBtn:hover {
+            background: #d5e1ee;
+        }
+
+        #detectLocationBtn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        #locationSuccess {
+
+            display: none;
+
+            margin-top: 10px;
+
+            padding: 10px;
+
+            border-radius: 7px;
+
+            background: #e8f7e8;
+
+            border: 1px solid #a9d9ae;
+
+            color: #18732a;
+
+            font-weight: bold;
+        }
+
+
+        /* ================= IMAGE ================= */
+
+        #imagePreview {
+
+            display: none;
+
+            margin-top: 15px;
+        }
+
+        #imagePreview img {
+
+            width: 230px;
+
+            max-width: 100%;
+
+            border-radius: 10px;
+
+            border: 2px solid #ddd;
+        }
+
+
+        /* ================= SUBMIT ================= */
+
+        #submitReportBtn {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #173b63;
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        #submitReportBtn:hover {
+            background: #102f50;
+        }
+
+        #submitReportBtn:disabled {
+            background: #888;
+            cursor: not-allowed;
+        }
+
+
+        /* ================= SUCCESS ================= */
+
+        #successMessage {
+
+            display: none;
+
+            margin-top: 20px;
+
+            padding: 18px;
+
+            border-radius: 8px;
+
+            background: #e8f7e8;
+
+            border: 1px solid #9ed5a5;
+
+            color: #18732a;
+
+            text-align: center;
+
+            font-weight: bold;
+
+            font-size: 17px;
+        }
+
+        #successMessage small {
+
+            display: block;
+
+            margin-top: 8px;
+
+            font-weight: normal;
+        }
+
+
+        /* ================= ERROR ================= */
+
+        #errorMessage {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 14px;
+
+            border-radius: 7px;
+
+            background: #ffe8e8;
+
+            border: 1px solid #e0aaaa;
+
+            color: #a00000;
+
+            font-weight: bold;
+        }
+
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .report-card {
+                padding: 25px 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        Public Infrastructure
+    </div>
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="report.html" class="active">
+            Report Issue
+        </a>
+
+        <a href="my-reports.html">
+            My Reports
+        </a>
+
+        <a href="track-status.html">
+            Track Status
+        </a>
+
+        <a href="analytics.html">
+            Analytics
+        </a>
+
+        <a href="index.html">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- ================= REPORT PAGE ================= -->
+
+<main class="page">
+
+    <div class="report-card">
+
+        <h1>
+            Report an Issue
+        </h1>
+
+        <p class="subtitle">
+            Submit a public infrastructure issue
+        </p>
+
+
+        <!-- CATEGORY -->
+
+        <div class="form-group">
+
+            <label for="issueCategory">
+                Issue Category
+            </label>
+
+            <select id="issueCategory">
+
+                <option value="">
+                    Select an issue
+                </option>
+
+                <option value="Road Damage">
+                    Road Damage
+                </option>
+
+                <option value="Pothole">
+                    Pothole
+                </option>
+
+                <option value="Street Light">
+                    Street Light
+                </option>
+
+                <option value="Garbage">
+                    Garbage
+                </option>
+
+                <option value="Drainage">
+                    Drainage
+                </option>
+
+                <option value="Water Supply">
+                    Water Supply
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <div class="form-group">
+
+            <label for="issueDescription">
+                Description
+            </label>
+
+            <textarea
+                id="issueDescription"
+                placeholder="Describe the issue..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- LOCATION -->
+
+        <div class="form-group">
+
+            <label for="issueLocation">
+                Location
+            </label>
+
+            <input
+                type="text"
+                id="issueLocation"
+                placeholder="Enter location"
+            >
+
+            <button
+                type="button"
+                id="detectLocationBtn">
+
+                📍 Detect My Location
+
+            </button>
+
+            <div id="locationSuccess">
+                📍 Location Detected
+            </div>
+
+        </div>
+
+
+        <!-- IMAGE -->
+
+        <div class="form-group">
+
+            <label for="issueImage">
+                Upload Image
+            </label>
+
+            <input
+                type="file"
+                id="issueImage"
+                accept="image/*"
+            >
+
+            <div id="imagePreview"></div>
+
+        </div>
+
+
+        <!-- SUBMIT -->
+
+        <button
+            type="button"
+            id="submitReportBtn">
+
+            Submit Report
+
+        </button>
+
+
+        <!-- SUCCESS -->
+
+        <div id="successMessage">
+
+            ✅ Report submitted successfully!
+
+            <small>
+                Opening My Reports...
+            </small>
+
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div id="errorMessage"></div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const category =
+    document.getElementById("issueCategory");
+
+const description =
+    document.getElementById("issueDescription");
+
+const locationInput =
+    document.getElementById("issueLocation");
+
+const imageInput =
+    document.getElementById("issueImage");
+
+const imagePreview =
+    document.getElementById("imagePreview");
+
+const detectLocationBtn =
+    document.getElementById("detectLocationBtn");
+
+const locationSuccess =
+    document.getElementById("locationSuccess");
+
+const submitBtn =
+    document.getElementById("submitReportBtn");
+
+const successMessage =
+    document.getElementById("successMessage");
+
+const errorMessage =
+    document.getElementById("errorMessage");
+
+
+/* =====================================================
+   IMAGE PREVIEW
+===================================================== */
+
+imageInput.addEventListener("change", function () {
+
+    clearError();
+
+    imagePreview.innerHTML = "";
+
+    imagePreview.style.display = "none";
+
+    const file =
+        imageInput.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+
+        showError(
+            "Please select a valid image."
+        );
+
+        imageInput.value = "";
+
+        return;
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        function (event) {
+
+            const image =
+                document.createElement("img");
+
+            image.src =
+                event.target.result;
+
+            image.alt =
+                "Uploaded Image";
+
+            imagePreview.appendChild(image);
+
+            imagePreview.style.display =
+                "block";
+
+        };
+
+    reader.onerror =
+        function () {
+
+            showError(
+                "Unable to display the selected image."
+            );
+
+        };
+
+    reader.readAsDataURL(file);
+
+});
+
+
+/* =====================================================
+   DETECT LOCATION
+===================================================== */
+
+detectLocationBtn.addEventListener(
+    "click",
+    function () {
+
+        clearError();
+
+        locationSuccess.style.display =
+            "none";
+
+        if (!navigator.geolocation) {
+
+            showError(
+                "Location detection is not supported by this browser."
+            );
+
+            return;
+        }
+
+        detectLocationBtn.disabled =
+            true;
+
+        detectLocationBtn.textContent =
+            "📍 Detecting Location...";
+
+
+        navigator.geolocation.getCurrentPosition(
+
+            function (position) {
+
+                const latitude =
+                    position.coords.latitude;
+
+                const longitude =
+                    position.coords.longitude;
+
+
+                locationInput.value =
+                    latitude.toFixed(6) +
+                    ", " +
+                    longitude.toFixed(6);
+
+
+                locationSuccess.textContent =
+                    "📍 Location Detected: " +
+                    latitude.toFixed(6) +
+                    ", " +
+                    longitude.toFixed(6);
+
+
+                locationSuccess.style.display =
+                    "block";
+
+
+                detectLocationBtn.disabled =
+                    false;
+
+                detectLocationBtn.textContent =
+                    "📍 Detect My Location";
+
+            },
+
+
+            function (error) {
+
+                detectLocationBtn.disabled =
+                    false;
+
+                detectLocationBtn.textContent =
+                    "📍 Detect My Location";
+
+
+                if (error.code === 1) {
+
+                    showError(
+                        "Location permission denied. Please allow location access and try again."
+                    );
+
+                }
+
+                else if (error.code === 2) {
+
+                    showError(
+                        "Location could not be detected. Please try again."
+                    );
+
+                }
+
+                else if (error.code === 3) {
+
+                    showError(
+                        "Location detection timed out. Please try again."
+                    );
+
+                }
+
+                else {
+
+                    showError(
+                        "Unable to detect your location."
+                    );
+
+                }
+
+            },
+
+            {
+                enableHighAccuracy: true,
+                timeout: 15000,
+                maximumAge: 0
+            }
+
+        );
+
+    }
+);
+
+
+/* =====================================================
+   SUBMIT REPORT
+===================================================== */
+
+submitBtn.addEventListener(
+    "click",
+    function () {
+
+        clearError();
+
+
+        const categoryValue =
+            category.value.trim();
+
+        const descriptionValue =
+            description.value.trim();
+
+        const locationValue =
+            locationInput.value.trim();
+
+
+        if (categoryValue === "") {
+
+            showError(
+                "Please select an issue category."
+            );
+
+            return;
+        }
+
+
+        if (descriptionValue === "") {
+
+            showError(
+                "Please enter the issue description."
+            );
+
+            return;
+        }
+
+
+        if (locationValue === "") {
+
+            showError(
+                "Please detect your location or enter the location manually."
+            );
+
+            return;
+        }
+
+
+        /* GET USER */
+
+        let user = null;
+
+        const possibleKeys = [
+            "loggedInUser",
+            "currentUser",
+            "loggedUser",
+            "user"
+        ];
+
+
+        for (
+            let i = 0;
+            i < possibleKeys.length;
+            i++
+        ) {
+
+            const stored =
+                localStorage.getItem(
+                    possibleKeys[i]
+                );
+
+            if (stored) {
+
+                try {
+
+                    user =
+                        JSON.parse(stored);
+
+                    break;
+
+                }
+
+                catch (error) {
+
+                    // continue
+
+                }
+
+            }
+
+        }
+
+
+        if (!user) {
+
+            user = {
+                name: "User",
+                email: ""
+            };
+
+        }
+
+
+        /* IMAGE */
+
+        const imageFile =
+            imageInput.files[0];
+
+
+        if (imageFile) {
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    saveReport(
+                        event.target.result,
+                        user
+                    );
+
+                };
+
+
+            reader.onerror =
+                function () {
+
+                    showError(
+                        "Image upload failed."
+                    );
+
+                };
+
+
+            reader.readAsDataURL(
+                imageFile
+            );
+
+        }
+
+        else {
+
+            saveReport(
+                "",
+                user
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   SAVE REPORT
+===================================================== */
+
+function saveReport(
+    imageData,
+    user
+) {
+
+    let reports = [];
+
+
+    try {
+
+        const savedReports =
+            localStorage.getItem("reports");
+
+        if (savedReports) {
+
+            reports =
+                JSON.parse(savedReports);
+
+        }
+
+    }
+
+    catch (error) {
+
+        reports = [];
+
+    }
+
+
+    if (!Array.isArray(reports)) {
+
+        reports = [];
+
+    }
+
+
+    const report = {
+
+        id:
+            "REP-" + Date.now(),
+
+        userName:
+            user.name ||
+            user.fullName ||
+            "User",
+
+        userEmail:
+            user.email ||
+            user.mail ||
+            "",
+
+        category:
+            category.value,
+
+        description:
+            description.value.trim(),
+
+        location:
+            locationInput.value.trim(),
+
+        image:
+            imageData,
+
+        status:
+            "Submitted",
+
+        createdAt:
+            new Date().toLocaleString()
+
+    };
+
+
+    reports.push(report);
+
+
+    localStorage.setItem(
+        "reports",
+        JSON.stringify(reports)
+    );
+
+
+    /* ================================================
+       SUCCESS MESSAGE
+    ================================================= */
+
+    successMessage.style.display =
+        "block";
+
+
+    submitBtn.disabled =
+        true;
+
+
+    submitBtn.textContent =
+        "Submitted ✓";
+
+
+    /*
+       IMPORTANT:
+       Directly open MY REPORTS.
+       Not Report Details.
+    */
+
+    setTimeout(
+        function () {
+
+            window.location.replace(
+                "my-reports.html"
+            );
+
+        },
+        2000
+    );
+
+}
+
+
+/* =====================================================
+   ERROR FUNCTIONS
+===================================================== */
+
+function showError(message) {
+
+    errorMessage.textContent =
+        "⚠️ " + message;
+
+    errorMessage.style.display =
+        "block";
+
+}
+
+
+function clearError() {
+
+    errorMessage.textContent =
+        "";
+
+    errorMessage.style.display =
+        "none";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report Analytics</title>
+
+    <link rel="stylesheet" href="analytics.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+
+        <div class="logo">
+            Public Infrastructure
+        </div>
+
+        <nav>
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="report.html">
+                Report Issue
+            </a>
+
+            <a href="my-reports.html">
+                My Reports
+            </a>
+
+            <a href="analytics.html" class="active">
+                Analytics
+            </a>
+
+            <a href="index.html">
+                Logout
+            </a>
+        </nav>
+
+    </header>
+
+
+    <!-- Analytics Page -->
+    <main class="analytics-page">
+
+        <div class="analytics-container">
+
+            <div class="analytics-heading">
+
+                <h1>Report Analytics</h1>
+
+                <p>
+                    Overview of public infrastructure issues
+                    reported by users.
+                </p>
+
+            </div>
+
+
+            <!-- Statistics -->
+
+            <div class="analytics-cards">
+
+                <div class="analytics-card">
+
+                    <h3>Total Reports</h3>
+
+                    <p id="analyticsTotal">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="analytics-card">
+
+                    <h3>Submitted</h3>
+
+                    <p id="analyticsSubmitted">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="analytics-card">
+
+                    <h3>Under Review</h3>
+
+                    <p id="analyticsReview">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="analytics-card">
+
+                    <h3>In Progress</h3>
+
+                    <p id="analyticsProgress">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="analytics-card">
+
+                    <h3>Resolved</h3>
+
+                    <p id="analyticsResolved">
+                        0
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Category Summary -->
+
+            <section class="category-section">
+
+                <h2>
+                    Issue Categories
+                </h2>
+
+                <div id="categoryStats">
+
+                    <p>
+                        Loading category statistics...
+                    </p>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 Public Infrastructure Reporting System
+        </p>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+
+    <script src="./script.js"></script>
+
+</body>
+
+</html>
