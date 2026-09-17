@@ -1,4 +1,4 @@
-=/* ==========================================
+/* ==========================================
    PUBLIC INFRASTRUCTURE - REPORT PAGE
    ========================================== */
 
@@ -58,6 +58,18 @@ body {
 .navbar nav a:hover,
 .navbar nav a.active {
     background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+/* ==========================================
+   KEEP NAVIGATION TEXT WHITE
+   ========================================== */
+
+.navbar nav a,
+.navbar nav a:visited,
+.navbar nav a:hover,
+.navbar nav a:active {
+    color: white;
 }
 
 
@@ -292,4 +304,15 @@ footer {
     .report-heading h1 {
         font-size: 26px;
     }
+}
+/* ==========================================
+   NAVBAR LINKS - WHITE COLOR
+   ========================================== */
+
+.navbar nav a,
+.navbar nav a:visited,
+.navbar nav a:hover,
+.navbar nav a:active,
+.navbar nav a:focus {
+    color: white !important;
 }

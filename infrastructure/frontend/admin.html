@@ -1,131 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Admin Dashboard - Public Infrastructure</title>
+    <title>Admin Panel</title>
 
     <link rel="stylesheet" href="admin.css">
 </head>
 
 <body>
 
-    <!-- Navigation Bar -->
-    <header class="navbar">
+    <!-- Navigation -->
+    <nav class="navbar">
 
         <div class="logo">
-            Public Infrastructure - Admin
+            Public Infrastructure
         </div>
 
-        <nav>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="report.html">Report Issue</a>
+            <a href="my-reports.html">My Reports</a>
+        </div>
 
-            <a href="dashboard.html">
-                Dashboard
-            </a>
-
-            <a href="admin.html" class="active">
-                Admin
-            </a>
-
-            <a href="index.html">
-                Logout
-            </a>
-
-        </nav>
-
-    </header>
+    </nav>
 
 
-    <!-- Main Content -->
-    <main class="admin-page">
+    <!-- Main -->
+    <main class="container">
 
-        <div class="admin-container">
+        <!-- Back to Dashboard -->
+        <a href="dashboard.html" class="back-dashboard">
+            ← Back to Dashboard
+        </a>
 
-            <!-- Heading -->
-            <div class="admin-heading">
+        <!-- View Analytics -->
+        <a href="analytics.html">
+            <button type="button">
+                View Analytics
+            </button>
+        </a>
 
-                <h1>
-                    Manage Reports
-                </h1>
 
-                <p>
-                    View submitted infrastructure reports
-                    and update their status.
-                </p>
+        <h1>Admin Panel</h1>
 
+        <p>Manage and update reported infrastructure issues.</p>
+
+
+        <!-- Statistics -->
+        <div class="stats-container">
+
+            <div class="stat-card">
+                <h3>Total Reports</h3>
+                <span id="totalReports">0</span>
             </div>
 
-
-            <!-- Statistics -->
-            <div class="statistics">
-
-                <div class="stat-card">
-
-                    <h3>Total Reports</h3>
-
-                    <p id="totalReports">
-                        0
-                    </p>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <h3>Submitted</h3>
-
-                    <p id="submittedReports">
-                        0
-                    </p>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <h3>In Progress</h3>
-
-                    <p id="progressReports">
-                        0
-                    </p>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <h3>Resolved</h3>
-
-                    <p id="resolvedReports">
-                        0
-                    </p>
-
-                </div>
-
+            <div class="stat-card">
+                <h3>Submitted</h3>
+                <span id="submittedReports">0</span>
             </div>
 
+            <div class="stat-card">
+                <h3>In Progress</h3>
+                <span id="progressReports">0</span>
+            </div>
 
-            <!-- Reports Section -->
-            <section class="reports-section">
+            <div class="stat-card">
+                <h3>Resolved</h3>
+                <span id="resolvedReports">0</span>
+            </div>
 
-                <h2>
-                    Submitted Reports
-                </h2>
+        </div>
 
 
-                <!-- Reports will be displayed here -->
+        <!-- Reports -->
+        <h2>Submitted Reports</h2>
 
-                <div id="adminReports">
+        <div id="adminReports">
 
-                    <p class="loading">
-                        Loading reports...
-                    </p>
-
-                </div>
-
-            </section>
+            Loading reports...
 
         </div>
 
@@ -134,17 +88,211 @@
 
     <!-- Footer -->
     <footer>
-
-        <p>
-            © 2026 Public Infrastructure Reporting System
-        </p>
-
+        © 2026 Public Infrastructure Reporting System
     </footer>
 
 
-    <!-- JavaScript -->
-    <script src="./script.js"></script>
+    <script>
+
+        function loadAdminReports() {
+
+            const reports =
+                JSON.parse(localStorage.getItem("reports")) || [];
+
+            const adminReports =
+                document.getElementById("adminReports");
+
+
+            /* Statistics */
+
+            document.getElementById("totalReports").textContent =
+                reports.length;
+
+            document.getElementById("submittedReports").textContent =
+                reports.filter(function(report) {
+                    return report.status === "Submitted";
+                }).length;
+
+            document.getElementById("progressReports").textContent =
+                reports.filter(function(report) {
+                    return report.status === "In Progress";
+                }).length;
+
+            document.getElementById("resolvedReports").textContent =
+                reports.filter(function(report) {
+                    return report.status === "Resolved";
+                }).length;
+
+
+            /* No reports */
+
+            if (reports.length === 0) {
+
+                adminReports.innerHTML = `
+                    <div class="admin-report-card">
+                        <h3>No Reports Available</h3>
+                        <p>No reports have been submitted yet.</p>
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            /* Display reports */
+
+            adminReports.innerHTML = "";
+
+
+            reports.forEach(function(report) {
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "admin-report-card";
+
+
+                card.innerHTML = `
+
+                    <h3>
+                        ${report.title || "Infrastructure Issue"}
+                    </h3>
+
+                    <p>
+                        <strong>Report ID:</strong>
+                        ${report.id || "N/A"}
+                    </p>
+
+                    <p>
+                        <strong>Category:</strong>
+                        ${report.category || "N/A"}
+                    </p>
+
+                    <p>
+                        <strong>Location:</strong>
+                        ${report.location || "N/A"}
+                    </p>
+
+                    <p>
+                        <strong>Description:</strong>
+                        ${report.description || "N/A"}
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        ${report.date || "N/A"}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+
+                        <select id="status-${report.id}">
+
+                            <option value="Submitted"
+                                ${report.status === "Submitted" ? "selected" : ""}>
+                                Submitted
+                            </option>
+
+                            <option value="Under Review"
+                                ${report.status === "Under Review" ? "selected" : ""}>
+                                Under Review
+                            </option>
+
+                            <option value="In Progress"
+                                ${report.status === "In Progress" ? "selected" : ""}>
+                                In Progress
+                            </option>
+
+                            <option value="Resolved"
+                                ${report.status === "Resolved" ? "selected" : ""}>
+                                Resolved
+                            </option>
+
+                        </select>
+
+                        <button
+                            type="button"
+                            onclick="updateStatus('${report.id}')">
+
+                            Update Status
+
+                        </button>
+
+                    </p>
+
+                `;
+
+
+                adminReports.appendChild(card);
+
+            });
+
+        }
+
+
+        function updateStatus(reportId) {
+
+            const reports =
+                JSON.parse(localStorage.getItem("reports")) || [];
+
+
+            const select =
+                document.getElementById("status-" + reportId);
+
+
+            if (!select) {
+                return;
+            }
+
+
+            const newStatus =
+                select.value;
+
+
+            const index =
+                reports.findIndex(function(report) {
+
+                    return String(report.id) ===
+                           String(reportId);
+
+                });
+
+
+            if (index === -1) {
+
+                alert("Report not found.");
+
+                return;
+            }
+
+
+            reports[index].status =
+                newStatus;
+
+
+            localStorage.setItem(
+                "reports",
+                JSON.stringify(reports)
+            );
+
+
+            alert(
+                "Report status updated to " +
+                newStatus
+            );
+
+
+            loadAdminReports();
+
+        }
+
+
+        /* Start */
+
+        loadAdminReports();
+
+    </script>
 
 </body>
-
 </html>

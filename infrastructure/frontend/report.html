@@ -1,1074 +1,532 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Report an Issue</title>
+    <title>Report Issue - Public Infrastructure</title>
+
+    <link rel="stylesheet" href="report.css">
 
     <style>
+        /* Location button */
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            min-height: 100vh;
-        }
-
-        /* ================= NAVBAR ================= */
-
-        .navbar {
-            background: #173b63;
+        .location-btn {
+            margin-top: 10px;
+            padding: 9px 14px;
+            border: none;
+            border-radius: 6px;
+            background-color: #1f4e79;
             color: white;
-            padding: 16px 30px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo {
-            font-size: 21px;
-            font-weight: bold;
-        }
-
-        .navbar nav {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .navbar nav a {
-            color: white;
-            text-decoration: none;
-
-            padding: 9px 12px;
-
-            border-radius: 5px;
-
+            cursor: pointer;
             font-size: 14px;
         }
 
-        .navbar nav a:hover,
-        .navbar nav a.active {
-            background: #2d6094;
+        .location-btn:hover {
+            background-color: #163a5c;
         }
 
+        /* Detected location */
 
-        /* ================= PAGE ================= */
-
-        .page {
-            min-height: calc(100vh - 70px);
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            padding: 40px 20px;
-        }
-
-
-        /* ================= CARD ================= */
-
-        .report-card {
-            width: 100%;
-            max-width: 650px;
-
-            background: white;
-
-            padding: 35px;
-
-            border-radius: 15px;
-
-            box-shadow:
-                0 8px 30px rgba(0,0,0,0.15);
-        }
-
-        .report-card h1 {
-            text-align: center;
-
-            color: #173b63;
-
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            text-align: center;
-
-            color: #777;
-
-            margin-bottom: 30px;
-        }
-
-
-        /* ================= FORM ================= */
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-
-            margin-bottom: 8px;
-
-            font-weight: bold;
-
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-
-            width: 100%;
-
-            padding: 12px;
-
-            border: 1px solid #ccc;
-
-            border-radius: 7px;
-
-            font-size: 15px;
-
-            background: white;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-
-            outline: none;
-
-            border-color: #173b63;
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-
-        /* ================= LOCATION ================= */
-
-        #detectLocationBtn {
-
+        #locationResult {
             margin-top: 10px;
-
-            padding: 11px 16px;
-
-            border: none;
-
-            border-radius: 7px;
-
-            background: #e7eef6;
-
-            color: #173b63;
-
-            font-weight: bold;
-
-            cursor: pointer;
-        }
-
-        #detectLocationBtn:hover {
-            background: #d5e1ee;
-        }
-
-        #detectLocationBtn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        #locationSuccess {
-
-            display: none;
-
-            margin-top: 10px;
-
             padding: 10px;
-
-            border-radius: 7px;
-
-            background: #e8f7e8;
-
-            border: 1px solid #a9d9ae;
-
-            color: #18732a;
-
-            font-weight: bold;
+            background-color: #f4f7fb;
+            border-radius: 6px;
+            color: #1f4e79;
+            font-size: 14px;
+            display: none;
         }
 
-
-        /* ================= IMAGE ================= */
+        /* Image preview */
 
         #imagePreview {
-
-            display: none;
-
-            margin-top: 15px;
-        }
-
-        #imagePreview img {
-
-            width: 230px;
-
+            margin-top: 12px;
             max-width: 100%;
-
-            border-radius: 10px;
-
-            border: 2px solid #ddd;
-        }
-
-
-        /* ================= SUBMIT ================= */
-
-        #submitReportBtn {
-
-            width: 100%;
-
-            padding: 14px;
-
-            border: none;
-
-            border-radius: 7px;
-
-            background: #173b63;
-
-            color: white;
-
-            font-size: 17px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-        }
-
-        #submitReportBtn:hover {
-            background: #102f50;
-        }
-
-        #submitReportBtn:disabled {
-            background: #888;
-            cursor: not-allowed;
-        }
-
-
-        /* ================= SUCCESS ================= */
-
-        #successMessage {
-
-            display: none;
-
-            margin-top: 20px;
-
-            padding: 18px;
-
+            max-height: 300px;
             border-radius: 8px;
-
-            background: #e8f7e8;
-
-            border: 1px solid #9ed5a5;
-
-            color: #18732a;
-
-            text-align: center;
-
-            font-weight: bold;
-
-            font-size: 17px;
-        }
-
-        #successMessage small {
-
-            display: block;
-
-            margin-top: 8px;
-
-            font-weight: normal;
-        }
-
-
-        /* ================= ERROR ================= */
-
-        #errorMessage {
-
             display: none;
-
-            margin-top: 18px;
-
-            padding: 14px;
-
-            border-radius: 7px;
-
-            background: #ffe8e8;
-
-            border: 1px solid #e0aaaa;
-
-            color: #a00000;
-
-            font-weight: bold;
+            border: 1px solid #ddd;
+            object-fit: contain;
         }
 
+        /* Keep navigation text white */
 
-        @media (max-width: 700px) {
-
-            .navbar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .report-card {
-                padding: 25px 20px;
-            }
-
+        .navbar nav a,
+        .navbar nav a:visited,
+        .navbar nav a:hover,
+        .navbar nav a:active {
+            color: white !important;
         }
-
     </style>
-
 </head>
-
 
 <body>
 
+    <!-- ==========================================
+         NAVIGATION BAR
+         ========================================== -->
 
-<!-- ================= NAVBAR ================= -->
+    <header class="navbar">
 
-<header class="navbar">
-
-    <div class="logo">
-        Public Infrastructure
-    </div>
-
-    <nav>
-
-        <a href="dashboard.html">
-            Dashboard
-        </a>
-
-        <a href="report.html" class="active">
-            Report Issue
-        </a>
-
-        <a href="my-reports.html">
-            My Reports
-        </a>
-
-        <a href="track-status.html">
-            Track Status
-        </a>
-
-        <a href="analytics.html">
-            Analytics
-        </a>
-
-        <a href="index.html">
-            Logout
-        </a>
-
-    </nav>
-
-</header>
-
-
-<!-- ================= REPORT PAGE ================= -->
-
-<main class="page">
-
-    <div class="report-card">
-
-        <h1>
-            Report an Issue
-        </h1>
-
-        <p class="subtitle">
-            Submit a public infrastructure issue
-        </p>
-
-
-        <!-- CATEGORY -->
-
-        <div class="form-group">
-
-            <label for="issueCategory">
-                Issue Category
-            </label>
-
-            <select id="issueCategory">
-
-                <option value="">
-                    Select an issue
-                </option>
-
-                <option value="Road Damage">
-                    Road Damage
-                </option>
-
-                <option value="Pothole">
-                    Pothole
-                </option>
-
-                <option value="Street Light">
-                    Street Light
-                </option>
-
-                <option value="Garbage">
-                    Garbage
-                </option>
-
-                <option value="Drainage">
-                    Drainage
-                </option>
-
-                <option value="Water Supply">
-                    Water Supply
-                </option>
-
-                <option value="Other">
-                    Other
-                </option>
-
-            </select>
-
+        <div class="logo">
+            Public Infrastructure
         </div>
 
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="report.html" class="active">Report Issue</a>
+            <a href="my-reports.html">My Reports</a>
+            <a href="report-details.html">Track Status</a>
+        </nav>
 
-        <!-- DESCRIPTION -->
-
-        <div class="form-group">
-
-            <label for="issueDescription">
-                Description
-            </label>
-
-            <textarea
-                id="issueDescription"
-                placeholder="Describe the issue..."
-            ></textarea>
-
-        </div>
+    </header>
 
 
-        <!-- LOCATION -->
+    <!-- ==========================================
+         REPORT PAGE
+         ========================================== -->
 
-        <div class="form-group">
+    <main class="report-page">
 
-            <label for="issueLocation">
-                Location
-            </label>
+        <div class="report-container">
 
-            <input
-                type="text"
-                id="issueLocation"
-                placeholder="Enter location"
-            >
+            <!-- HEADING -->
 
-            <button
-                type="button"
-                id="detectLocationBtn">
+            <div class="report-heading">
 
-                📍 Detect My Location
+                <h1>Report an Issue</h1>
 
-            </button>
+                <p>
+                    Help improve your community by reporting
+                    public infrastructure issues.
+                </p>
 
-            <div id="locationSuccess">
-                📍 Location Detected
             </div>
 
+
+            <!-- REPORT FORM -->
+
+            <form id="reportForm" class="report-form">
+
+                <!-- ISSUE TITLE -->
+
+                <div class="form-group">
+
+                    <label for="issueTitle">
+                        Issue Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="issueTitle"
+                        placeholder="Enter issue title"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select id="category" required>
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="Road">
+                            Road
+                        </option>
+
+                        <option value="Street Light">
+                            Street Light
+                        </option>
+
+                        <option value="Garbage">
+                            Garbage
+                        </option>
+
+                        <option value="Water">
+                            Water
+                        </option>
+
+                        <option value="Drainage">
+                            Drainage
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="form-group">
+
+                    <label for="location">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        placeholder="Enter location"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="location-btn"
+                        id="detectLocationBtn"
+                    >
+                        📍 Detect Location
+                    </button>
+
+                    <!-- Detected location will appear here -->
+
+                    <div id="locationResult"></div>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        rows="5"
+                        placeholder="Describe the issue"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- IMAGE UPLOAD -->
+
+                <div class="form-group">
+
+                    <label for="issueImage">
+                        Upload Image
+                    </label>
+
+                    <input
+                        type="file"
+                        id="issueImage"
+                        accept="image/*"
+                    >
+
+                    <small>
+                        Upload an image showing the reported issue.
+                    </small>
+
+                    <!-- Image preview -->
+
+                    <img
+                        id="imagePreview"
+                        alt="Selected issue image preview"
+                    >
+
+                </div>
+
+
+                <!-- SUBMIT BUTTON -->
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Submit Report
+                </button>
+
+            </form>
+
         </div>
 
+    </main>
 
-        <!-- IMAGE -->
 
-        <div class="form-group">
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
 
-            <label for="issueImage">
-                Upload Image
-            </label>
+    <footer>
 
-            <input
-                type="file"
-                id="issueImage"
-                accept="image/*"
-            >
+        <p>
+            © 2026 Public Infrastructure Issues Reporting System
+        </p>
 
-            <div id="imagePreview"></div>
+    </footer>
 
-        </div>
 
+    <script>
 
-        <!-- SUBMIT -->
+        /* ==========================================
+           IMAGE PREVIEW
+           ========================================== */
 
-        <button
-            type="button"
-            id="submitReportBtn">
+        const issueImage =
+            document.getElementById("issueImage");
 
-            Submit Report
+        const imagePreview =
+            document.getElementById("imagePreview");
 
-        </button>
 
+        issueImage.addEventListener("change", function () {
 
-        <!-- SUCCESS -->
+            const file = this.files[0];
 
-        <div id="successMessage">
+            if (file) {
 
-            ✅ Report submitted successfully!
+                const reader = new FileReader();
 
-            <small>
-                Opening My Reports...
-            </small>
+                reader.onload = function (event) {
 
-        </div>
+                    imagePreview.src =
+                        event.target.result;
 
+                    imagePreview.style.display =
+                        "block";
 
-        <!-- ERROR -->
+                };
 
-        <div id="errorMessage"></div>
+                reader.readAsDataURL(file);
 
-    </div>
+            } else {
 
-</main>
+                imagePreview.src = "";
 
+                imagePreview.style.display =
+                    "none";
+            }
 
-<script>
+        });
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
 
-const category =
-    document.getElementById("issueCategory");
+        /* ==========================================
+           DETECT LOCATION
+           ========================================== */
 
-const description =
-    document.getElementById("issueDescription");
+        const detectLocationBtn =
+            document.getElementById("detectLocationBtn");
 
-const locationInput =
-    document.getElementById("issueLocation");
+        const locationInput =
+            document.getElementById("location");
 
-const imageInput =
-    document.getElementById("issueImage");
+        const locationResult =
+            document.getElementById("locationResult");
 
-const imagePreview =
-    document.getElementById("imagePreview");
 
-const detectLocationBtn =
-    document.getElementById("detectLocationBtn");
+        detectLocationBtn.addEventListener(
+            "click",
+            function () {
 
-const locationSuccess =
-    document.getElementById("locationSuccess");
+                if (!navigator.geolocation) {
 
-const submitBtn =
-    document.getElementById("submitReportBtn");
+                    locationResult.innerText =
+                        "Location detection is not supported by this browser.";
 
-const successMessage =
-    document.getElementById("successMessage");
+                    locationResult.style.display =
+                        "block";
 
-const errorMessage =
-    document.getElementById("errorMessage");
+                    return;
+                }
 
 
-/* =====================================================
-   IMAGE PREVIEW
-===================================================== */
+                locationResult.innerText =
+                    "Detecting your location...";
 
-imageInput.addEventListener("change", function () {
-
-    clearError();
-
-    imagePreview.innerHTML = "";
-
-    imagePreview.style.display = "none";
-
-    const file =
-        imageInput.files[0];
-
-    if (!file) {
-        return;
-    }
-
-    if (!file.type.startsWith("image/")) {
-
-        showError(
-            "Please select a valid image."
-        );
-
-        imageInput.value = "";
-
-        return;
-    }
-
-    const reader =
-        new FileReader();
-
-    reader.onload =
-        function (event) {
-
-            const image =
-                document.createElement("img");
-
-            image.src =
-                event.target.result;
-
-            image.alt =
-                "Uploaded Image";
-
-            imagePreview.appendChild(image);
-
-            imagePreview.style.display =
-                "block";
-
-        };
-
-    reader.onerror =
-        function () {
-
-            showError(
-                "Unable to display the selected image."
-            );
-
-        };
-
-    reader.readAsDataURL(file);
-
-});
-
-
-/* =====================================================
-   DETECT LOCATION
-===================================================== */
-
-detectLocationBtn.addEventListener(
-    "click",
-    function () {
-
-        clearError();
-
-        locationSuccess.style.display =
-            "none";
-
-        if (!navigator.geolocation) {
-
-            showError(
-                "Location detection is not supported by this browser."
-            );
-
-            return;
-        }
-
-        detectLocationBtn.disabled =
-            true;
-
-        detectLocationBtn.textContent =
-            "📍 Detecting Location...";
-
-
-        navigator.geolocation.getCurrentPosition(
-
-            function (position) {
-
-                const latitude =
-                    position.coords.latitude;
-
-                const longitude =
-                    position.coords.longitude;
-
-
-                locationInput.value =
-                    latitude.toFixed(6) +
-                    ", " +
-                    longitude.toFixed(6);
-
-
-                locationSuccess.textContent =
-                    "📍 Location Detected: " +
-                    latitude.toFixed(6) +
-                    ", " +
-                    longitude.toFixed(6);
-
-
-                locationSuccess.style.display =
+                locationResult.style.display =
                     "block";
 
 
-                detectLocationBtn.disabled =
-                    false;
+                navigator.geolocation.getCurrentPosition(
 
-                detectLocationBtn.textContent =
-                    "📍 Detect My Location";
+                    function (position) {
 
-            },
+                        const latitude =
+                            position.coords.latitude;
 
-
-            function (error) {
-
-                detectLocationBtn.disabled =
-                    false;
-
-                detectLocationBtn.textContent =
-                    "📍 Detect My Location";
+                        const longitude =
+                            position.coords.longitude;
 
 
-                if (error.code === 1) {
+                        /*
+                         IMPORTANT:
+                         Do NOT replace the location input.
 
-                    showError(
-                        "Location permission denied. Please allow location access and try again."
-                    );
+                         If user typed:
+                         Chennai
 
-                }
-
-                else if (error.code === 2) {
-
-                    showError(
-                        "Location could not be detected. Please try again."
-                    );
-
-                }
-
-                else if (error.code === 3) {
-
-                    showError(
-                        "Location detection timed out. Please try again."
-                    );
-
-                }
-
-                else {
-
-                    showError(
-                        "Unable to detect your location."
-                    );
-
-                }
-
-            },
-
-            {
-                enableHighAccuracy: true,
-                timeout: 15000,
-                maximumAge: 0
-            }
-
-        );
-
-    }
-);
+                         It will remain:
+                         Chennai
+                        */
 
 
-/* =====================================================
-   SUBMIT REPORT
-===================================================== */
-
-submitBtn.addEventListener(
-    "click",
-    function () {
-
-        clearError();
+                        locationResult.innerText =
+                            "📍 Detected Location: " +
+                            latitude.toFixed(6) +
+                            ", " +
+                            longitude.toFixed(6);
 
 
-        const categoryValue =
-            category.value.trim();
+                        locationResult.style.display =
+                            "block";
 
-        const descriptionValue =
-            description.value.trim();
-
-        const locationValue =
-            locationInput.value.trim();
+                    },
 
 
-        if (categoryValue === "") {
+                    function () {
 
-            showError(
-                "Please select an issue category."
-            );
+                        locationResult.innerText =
+                            "Unable to detect location. Please allow location permission or enter it manually.";
 
-            return;
-        }
+                        locationResult.style.display =
+                            "block";
 
+                    }
 
-        if (descriptionValue === "") {
-
-            showError(
-                "Please enter the issue description."
-            );
-
-            return;
-        }
-
-
-        if (locationValue === "") {
-
-            showError(
-                "Please detect your location or enter the location manually."
-            );
-
-            return;
-        }
-
-
-        /* GET USER */
-
-        let user = null;
-
-        const possibleKeys = [
-            "loggedInUser",
-            "currentUser",
-            "loggedUser",
-            "user"
-        ];
-
-
-        for (
-            let i = 0;
-            i < possibleKeys.length;
-            i++
-        ) {
-
-            const stored =
-                localStorage.getItem(
-                    possibleKeys[i]
                 );
 
-            if (stored) {
+            }
+        );
 
-                try {
 
-                    user =
-                        JSON.parse(stored);
+        /* ==========================================
+           SUBMIT REPORT
+           ========================================== */
 
-                    break;
+        const reportForm =
+            document.getElementById("reportForm");
 
+
+        reportForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const issueTitle =
+                    document.getElementById(
+                        "issueTitle"
+                    ).value.trim();
+
+
+                const category =
+                    document.getElementById(
+                        "category"
+                    ).value;
+
+
+                const location =
+                    document.getElementById(
+                        "location"
+                    ).value.trim();
+
+
+                const description =
+                    document.getElementById(
+                        "description"
+                    ).value.trim();
+
+
+                if (
+                    !issueTitle ||
+                    !category ||
+                    !location ||
+                    !description
+                ) {
+
+                    alert(
+                        "Please fill all required fields."
+                    );
+
+                    return;
                 }
 
-                catch (error) {
 
-                    // continue
+                /* Get existing reports */
 
-                }
+                let reports =
+                    JSON.parse(
+                        localStorage.getItem("reports")
+                    ) || [];
+
+
+                /* Create new report */
+
+                const newReport = {
+
+                    id: Date.now(),
+
+                    title: issueTitle,
+
+                    category: category,
+
+                    location: location,
+
+                    description: description,
+
+                    date:
+                        new Date().toLocaleDateString(),
+
+                    status: "Submitted"
+
+                };
+
+
+                /* Add new report */
+
+                reports.push(newReport);
+
+
+                /* Save reports */
+
+                localStorage.setItem(
+                    "reports",
+                    JSON.stringify(reports)
+                );
+
+
+                /* Save selected report */
+
+                localStorage.setItem(
+                    "selectedReportId",
+                    newReport.id
+                );
+
+
+                alert(
+                    "Report submitted successfully!"
+                );
+
+
+                /* Go to My Reports */
+
+                window.location.href =
+                    "my-reports.html";
 
             }
+        );
 
-        }
-
-
-        if (!user) {
-
-            user = {
-                name: "User",
-                email: ""
-            };
-
-        }
-
-
-        /* IMAGE */
-
-        const imageFile =
-            imageInput.files[0];
-
-
-        if (imageFile) {
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                function (event) {
-
-                    saveReport(
-                        event.target.result,
-                        user
-                    );
-
-                };
-
-
-            reader.onerror =
-                function () {
-
-                    showError(
-                        "Image upload failed."
-                    );
-
-                };
-
-
-            reader.readAsDataURL(
-                imageFile
-            );
-
-        }
-
-        else {
-
-            saveReport(
-                "",
-                user
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   SAVE REPORT
-===================================================== */
-
-function saveReport(
-    imageData,
-    user
-) {
-
-    let reports = [];
-
-
-    try {
-
-        const savedReports =
-            localStorage.getItem("reports");
-
-        if (savedReports) {
-
-            reports =
-                JSON.parse(savedReports);
-
-        }
-
-    }
-
-    catch (error) {
-
-        reports = [];
-
-    }
-
-
-    if (!Array.isArray(reports)) {
-
-        reports = [];
-
-    }
-
-
-    const report = {
-
-        id:
-            "REP-" + Date.now(),
-
-        userName:
-            user.name ||
-            user.fullName ||
-            "User",
-
-        userEmail:
-            user.email ||
-            user.mail ||
-            "",
-
-        category:
-            category.value,
-
-        description:
-            description.value.trim(),
-
-        location:
-            locationInput.value.trim(),
-
-        image:
-            imageData,
-
-        status:
-            "Submitted",
-
-        createdAt:
-            new Date().toLocaleString()
-
-    };
-
-
-    reports.push(report);
-
-
-    localStorage.setItem(
-        "reports",
-        JSON.stringify(reports)
-    );
-
-
-    /* ================================================
-       SUCCESS MESSAGE
-    ================================================= */
-
-    successMessage.style.display =
-        "block";
-
-
-    submitBtn.disabled =
-        true;
-
-
-    submitBtn.textContent =
-        "Submitted ✓";
-
-
-    /*
-       IMPORTANT:
-       Directly open MY REPORTS.
-       Not Report Details.
-    */
-
-    setTimeout(
-        function () {
-
-            window.location.replace(
-                "my-reports.html"
-            );
-
-        },
-        2000
-    );
-
-}
-
-
-/* =====================================================
-   ERROR FUNCTIONS
-===================================================== */
-
-function showError(message) {
-
-    errorMessage.textContent =
-        "⚠️ " + message;
-
-    errorMessage.style.display =
-        "block";
-
-}
-
-
-function clearError() {
-
-    errorMessage.textContent =
-        "";
-
-    errorMessage.style.display =
-        "none";
-
-}
-
-</script>
-
+    </script>
 
 </body>
-
 </html>

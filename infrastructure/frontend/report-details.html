@@ -1,18 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Report Details</title>
+    <title>Report Details - Public Infrastructure</title>
 
     <link rel="stylesheet" href="report-details.css">
+
+    <style>
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .navbar nav a,
+        .navbar nav a:link,
+        .navbar nav a:visited,
+        .navbar nav a:hover,
+        .navbar nav a:active,
+        .navbar nav a:focus {
+            color: #ffffff !important;
+            text-decoration: none !important;
+        }
+
+        .navbar nav a:hover,
+        .navbar nav a.active {
+            color: #ffffff !important;
+            background-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+
+        /* ==============================
+           PAGE HEADING
+        ============================== */
+
+        .page-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .page-heading h1 {
+            color: #1f4e79;
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .page-heading p {
+            color: #666;
+            font-size: 16px;
+        }
+
+
+        /* ==============================
+           MAIN REPORT BOX
+        ============================== */
+
+        .report-detail-card {
+            background-color: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+
+        /* ==============================
+           ISSUE TITLE
+        ============================== */
+
+        .report-detail-card h2 {
+            color: #1f4e79;
+            font-size: 27px;
+            margin-bottom: 28px;
+        }
+
+
+        /* ==============================
+           REPORT INFORMATION
+        ============================== */
+
+        .detail-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .detail-item strong {
+            min-width: 120px;
+            color: #333;
+        }
+
+        .detail-item span {
+            color: #555;
+        }
+
+
+        /* ==============================
+           STATUS
+        ============================== */
+
+        .status {
+            font-weight: bold;
+            color: #1f4e79 !important;
+        }
+
+
+        /* ==============================
+           TRACK STATUS SECTION
+        ============================== */
+
+        .status-section {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid #ddd;
+        }
+
+        .status-section h3 {
+            color: #1f4e79;
+            font-size: 24px;
+            margin-bottom: 25px;
+        }
+
+
+        /* ==============================
+           STATUS TIMELINE
+        ============================== */
+
+        .status-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .status-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            position: relative;
+        }
+
+        .status-step:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            left: 14px;
+            top: 32px;
+            width: 2px;
+            height: 45px;
+            background-color: #ccc;
+        }
+
+        .status-circle {
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+            border-radius: 50%;
+            border: 2px solid #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: bold;
+            background-color: white;
+        }
+
+        .status-step.completed .status-circle {
+            background-color: #1f4e79;
+            color: white;
+            border-color: #1f4e79;
+        }
+
+        .status-step h4 {
+            margin: 2px 0 5px;
+            color: #333;
+            font-size: 17px;
+        }
+
+        .status-step p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+
+        /* ==============================
+           BACK BUTTON
+        ============================== */
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 11px 18px;
+            background-color: #1f4e79;
+            color: white !important;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back-btn:hover {
+            background-color: #163a5c;
+        }
+
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 768px) {
+
+            .report-detail-card {
+                padding: 22px;
+            }
+
+            .page-heading h1 {
+                font-size: 27px;
+            }
+
+            .report-detail-card h2 {
+                font-size: 23px;
+            }
+
+            .detail-item {
+                flex-direction: column;
+                gap: 3px;
+            }
+
+        }
+
+    </style>
 </head>
+
 
 <body>
 
-    <!-- Navigation -->
+    <!-- Navigation Bar -->
+
     <header class="navbar">
 
         <div class="logo">
@@ -20,43 +245,24 @@
         </div>
 
         <nav>
-
-            <a href="dashboard.html">
-                Dashboard
-            </a>
-
-            <a href="report.html">
-                Report Issue
-            </a>
-
-            <a href="my-reports.html">
-                My Reports
-            </a>
-
-            <a href="report-details.html" class="active">
-                Track Status
-            </a>
-
-            <a href="index.html">
-                Logout
-            </a>
-
+            <a href="dashboard.html">Dashboard</a>
+            <a href="report.html">Report Issue</a>
+            <a href="my-reports.html">My Reports</a>
+            <a href="report-details.html" class="active">Track Status</a>
         </nav>
 
     </header>
 
 
-    <!-- Main Content -->
-    <main class="details-page">
+    <!-- Report Details Page -->
 
-        <div class="details-container">
+    <main class="report-details-page">
 
-            <!-- Heading -->
-            <div class="details-heading">
+        <div class="report-details-container">
 
-                <h1>
-                    Report Details
-                </h1>
+            <div class="page-heading">
+
+                <h1>Report Details</h1>
 
                 <p>
                     Track the current status of your report.
@@ -65,28 +271,9 @@
             </div>
 
 
-            <!-- Report Details -->
-            <div
-                id="reportDetails"
-                class="report-details-card">
+            <div id="reportDetailsContainer">
 
-                <p>
-                    Loading report details...
-                </p>
-
-            </div>
-
-
-            <!-- Back to My Reports -->
-            <div class="back-container">
-
-                <a
-                    href="my-reports.html"
-                    class="back-btn">
-
-                    ← Back to My Reports
-
-                </a>
+                <!-- Report details will appear here -->
 
             </div>
 
@@ -96,6 +283,7 @@
 
 
     <!-- Footer -->
+
     <footer>
 
         <p>
@@ -105,9 +293,341 @@
     </footer>
 
 
-    <!-- Existing JavaScript -->
-    <script src="script.js"></script>
+    <script>
+
+        const reportDetailsContainer =
+            document.getElementById("reportDetailsContainer");
+
+
+        let reports =
+            JSON.parse(localStorage.getItem("reports")) || [];
+
+
+        const urlParams =
+            new URLSearchParams(window.location.search);
+
+
+        let reportId =
+            urlParams.get("id") ||
+            localStorage.getItem("selectedReportId");
+
+
+        let report =
+            reports.find(function(item) {
+
+                return String(item.id) === String(reportId);
+
+            });
+
+
+        if (!report) {
+
+            reportDetailsContainer.innerHTML = `
+
+                <div class="report-detail-card">
+
+                    <h2>Report Not Found</h2>
+
+                    <p>
+                        The selected report could not be found.
+                    </p>
+
+                    <a href="my-reports.html" class="back-btn">
+                        Back to My Reports
+                    </a>
+
+                </div>
+
+            `;
+
+        } else {
+
+            reportDetailsContainer.innerHTML = `
+
+                <div class="report-detail-card">
+
+
+                    <!-- Issue Title -->
+
+                    <h2>
+                        ${report.title || "Street Light Issue"}
+                    </h2>
+
+
+                    <!-- Report Information -->
+
+                    <div class="detail-item">
+
+                        <strong>Report ID:</strong>
+
+                        <span>
+                            #${report.id}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <strong>Category:</strong>
+
+                        <span>
+                            ${report.category || "N/A"}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <strong>Location:</strong>
+
+                        <span>
+                            ${report.location || "N/A"}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <strong>Description:</strong>
+
+                        <span>
+                            ${report.description || "N/A"}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <strong>Status:</strong>
+
+                        <span class="status">
+
+                            ${report.status || "Submitted"}
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- Uploaded Image -->
+
+                    ${
+                        report.image
+                        ?
+                        `
+
+                        <div class="detail-item image-section">
+
+                            <strong>
+                                Uploaded Image:
+                            </strong>
+
+                            <img
+                                src="${report.image}"
+                                alt="Reported Issue"
+                                class="report-image"
+                                style="
+                                    max-width: 100%;
+                                    margin-top: 10px;
+                                    border-radius: 8px;
+                                "
+                            >
+
+                        </div>
+
+                        `
+                        :
+                        ""
+                    }
+
+
+                    <!-- Track Status -->
+
+                    <div class="status-section">
+
+                        <h3>
+                            Track Status of Report
+                        </h3>
+
+
+                        <div class="status-timeline">
+
+
+                            <!-- Submitted -->
+
+                            <div class="status-step completed">
+
+                                <div class="status-circle">
+                                    ✓
+                                </div>
+
+                                <div>
+
+                                    <h4>
+                                        Submitted
+                                    </h4>
+
+                                    <p>
+                                        Your report has been submitted.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Under Review -->
+
+                            <div class="status-step ${
+                                report.status === "Under Review" ||
+                                report.status === "In Progress" ||
+                                report.status === "Resolved"
+                                ? "completed"
+                                : ""
+                            }">
+
+                                <div class="status-circle">
+
+                                    ${
+                                        report.status === "Under Review" ||
+                                        report.status === "In Progress" ||
+                                        report.status === "Resolved"
+                                        ? "✓"
+                                        : "2"
+                                    }
+
+                                </div>
+
+                                <div>
+
+                                    <h4>
+                                        Under Review
+                                    </h4>
+
+                                    <p>
+                                        ${
+                                            report.status === "Under Review" ||
+                                            report.status === "In Progress" ||
+                                            report.status === "Resolved"
+                                            ?
+                                            "Your report is currently being reviewed."
+                                            :
+                                            "Your report is waiting for review."
+                                        }
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- In Progress -->
+
+                            <div class="status-step ${
+                                report.status === "In Progress" ||
+                                report.status === "Resolved"
+                                ? "completed"
+                                : ""
+                            }">
+
+                                <div class="status-circle">
+
+                                    ${
+                                        report.status === "In Progress" ||
+                                        report.status === "Resolved"
+                                        ? "✓"
+                                        : "3"
+                                    }
+
+                                </div>
+
+                                <div>
+
+                                    <h4>
+                                        In Progress
+                                    </h4>
+
+                                    <p>
+                                        ${
+                                            report.status === "In Progress" ||
+                                            report.status === "Resolved"
+                                            ?
+                                            "Work on the issue has started."
+                                            :
+                                            "Work has not started yet."
+                                        }
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Resolved -->
+
+                            <div class="status-step ${
+                                report.status === "Resolved"
+                                ? "completed"
+                                : ""
+                            }">
+
+                                <div class="status-circle">
+
+                                    ${
+                                        report.status === "Resolved"
+                                        ? "✓"
+                                        : "4"
+                                    }
+
+                                </div>
+
+                                <div>
+
+                                    <h4>
+                                        Resolved
+                                    </h4>
+
+                                    <p>
+                                        ${
+                                            report.status === "Resolved"
+                                            ?
+                                            "The issue has been resolved."
+                                            :
+                                            "The issue has not been resolved yet."
+                                        }
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Back Button -->
+
+                    <a
+                        href="my-reports.html"
+                        class="back-btn"
+                    >
+                        ← Back to My Reports
+                    </a>
+
+
+                </div>
+
+            `;
+
+        }
+
+    </script>
 
 </body>
-
 </html>

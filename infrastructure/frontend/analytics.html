@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,154 +11,187 @@
 
 <body>
 
-    <!-- Navigation -->
-    <header class="navbar">
+    <nav class="navbar">
 
         <div class="logo">
             Public Infrastructure
         </div>
 
-        <nav>
-            <a href="dashboard.html">
-                Dashboard
-            </a>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="report.html">Report Issue</a>
+            <a href="my-reports.html">My Reports</a>
+        </div>
 
-            <a href="report.html">
-                Report Issue
-            </a>
-
-            <a href="my-reports.html">
-                My Reports
-            </a>
-
-            <a href="analytics.html" class="active">
-                Analytics
-            </a>
-
-            <a href="index.html">
-                Logout
-            </a>
-        </nav>
-
-    </header>
+    </nav>
 
 
-    <!-- Analytics Page -->
-    <main class="analytics-page">
+    <main class="container">
 
-        <div class="analytics-container">
+        <!-- Back to Dashboard -->
+        <a href="dashboard.html" class="back-dashboard">
+            ← Back to Dashboard
+        </a>
 
-            <div class="analytics-heading">
 
-                <h1>Report Analytics</h1>
+        <h1>Report Analytics</h1>
 
-                <p>
-                    Overview of public infrastructure issues
-                    reported by users.
-                </p>
+        <p>Overview of reported infrastructure issues.</p>
 
+
+        <div class="stats-container">
+
+            <div class="stat-card">
+                <h3>Total Reports</h3>
+                <span id="analyticsTotal">0</span>
             </div>
 
-
-            <!-- Statistics -->
-
-            <div class="analytics-cards">
-
-                <div class="analytics-card">
-
-                    <h3>Total Reports</h3>
-
-                    <p id="analyticsTotal">
-                        0
-                    </p>
-
-                </div>
-
-
-                <div class="analytics-card">
-
-                    <h3>Submitted</h3>
-
-                    <p id="analyticsSubmitted">
-                        0
-                    </p>
-
-                </div>
-
-
-                <div class="analytics-card">
-
-                    <h3>Under Review</h3>
-
-                    <p id="analyticsReview">
-                        0
-                    </p>
-
-                </div>
-
-
-                <div class="analytics-card">
-
-                    <h3>In Progress</h3>
-
-                    <p id="analyticsProgress">
-                        0
-                    </p>
-
-                </div>
-
-
-                <div class="analytics-card">
-
-                    <h3>Resolved</h3>
-
-                    <p id="analyticsResolved">
-                        0
-                    </p>
-
-                </div>
-
+            <div class="stat-card">
+                <h3>Submitted</h3>
+                <span id="analyticsSubmitted">0</span>
             </div>
 
+            <div class="stat-card">
+                <h3>Under Review</h3>
+                <span id="analyticsReview">0</span>
+            </div>
 
-            <!-- Category Summary -->
+            <div class="stat-card">
+                <h3>In Progress</h3>
+                <span id="analyticsProgress">0</span>
+            </div>
 
-            <section class="category-section">
-
-                <h2>
-                    Issue Categories
-                </h2>
-
-                <div id="categoryStats">
-
-                    <p>
-                        Loading category statistics...
-                    </p>
-
-                </div>
-
-            </section>
+            <div class="stat-card">
+                <h3>Resolved</h3>
+                <span id="analyticsResolved">0</span>
+            </div>
 
         </div>
+
+
+        <section class="category-section">
+
+            <h2>Reports by Category</h2>
+
+            <div id="categoryStats">
+                Loading...
+            </div>
+
+        </section>
 
     </main>
 
 
-    <!-- Footer -->
-
     <footer>
-
-        <p>
-            © 2026 Public Infrastructure Reporting System
-        </p>
-
+        © 2026 Public Infrastructure Reporting System
     </footer>
 
 
-    <!-- JavaScript -->
+    <script>
 
-    <script src="./script.js"></script>
+        const reports =
+            JSON.parse(localStorage.getItem("reports")) || [];
+
+
+        const submitted =
+            reports.filter(function(report) {
+                return report.status === "Submitted";
+            }).length;
+
+
+        const underReview =
+            reports.filter(function(report) {
+                return report.status === "Under Review";
+            }).length;
+
+
+        const inProgress =
+            reports.filter(function(report) {
+                return report.status === "In Progress";
+            }).length;
+
+
+        const resolved =
+            reports.filter(function(report) {
+                return report.status === "Resolved";
+            }).length;
+
+
+        document.getElementById("analyticsTotal").textContent =
+            reports.length;
+
+        document.getElementById("analyticsSubmitted").textContent =
+            submitted;
+
+        document.getElementById("analyticsReview").textContent =
+            underReview;
+
+        document.getElementById("analyticsProgress").textContent =
+            inProgress;
+
+        document.getElementById("analyticsResolved").textContent =
+            resolved;
+
+
+        /* Category Statistics */
+
+        const categoryStats =
+            document.getElementById("categoryStats");
+
+
+        if (reports.length === 0) {
+
+            categoryStats.innerHTML =
+                "<p>No reports available.</p>";
+
+        } else {
+
+            const categories = {};
+
+
+            reports.forEach(function(report) {
+
+                const category =
+                    report.category || "Other";
+
+
+                if (categories[category]) {
+
+                    categories[category]++;
+
+                } else {
+
+                    categories[category] = 1;
+
+                }
+
+            });
+
+
+            categoryStats.innerHTML = "";
+
+
+            for (const category in categories) {
+
+                const item =
+                    document.createElement("div");
+
+                item.className = "category-item";
+
+                item.innerHTML =
+                    "<strong>" +
+                    category +
+                    "</strong> : " +
+                    categories[category] +
+                    " report(s)";
+
+                categoryStats.appendChild(item);
+
+            }
+
+        }
+
+    </script>
 
 </body>
-
 </html>

@@ -118,9 +118,91 @@
     </div>
 
 
-    <!-- JavaScript -->
+    <!-- Login JavaScript -->
 
-    <script src="script.js"></script>
+    <script>
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+
+        loginForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const email =
+                    document.getElementById("email")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+                const password =
+                    document.getElementById("password")
+                    .value;
+
+
+                /* Get registered users */
+
+                const users =
+                    JSON.parse(
+                        localStorage.getItem("users")
+                    ) || [];
+
+
+                /* Check email and password */
+
+                const user =
+                    users.find(
+                        function (user) {
+
+                            return (
+                                user.email.toLowerCase() === email &&
+                                user.password === password
+                            );
+
+                        }
+                    );
+
+
+                /* Login successful */
+
+                if (user) {
+
+                    localStorage.setItem(
+                        "loggedInUser",
+                        JSON.stringify(user)
+                    );
+
+
+                    alert(
+                        "Login successful!"
+                    );
+
+
+                    window.location.href =
+                        "dashboard.html";
+
+                }
+
+
+                /* Login failed */
+
+                else {
+
+                    alert(
+                        "Invalid Email ID or Password."
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
 
 </body>
 

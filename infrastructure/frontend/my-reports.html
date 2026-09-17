@@ -2,15 +2,92 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Report Details - Public Infrastructure</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="report-details.css">
+    <title>My Reports - Public Infrastructure</title>
+
+    <link rel="stylesheet"
+          href="my-reports.css">
+
+    <!-- NAVBAR WHITE COLOR FIX -->
+
+    <style>
+
+        .navbar {
+            width: 100%;
+            min-height: 70px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 0 50px;
+
+            background-color: #1f4e79 !important;
+
+            color: white !important;
+        }
+
+
+        .navbar .logo {
+            color: white !important;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+
+        .navbar nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+
+        .navbar nav a,
+        .navbar nav a:link,
+        .navbar nav a:visited,
+        .navbar nav a:hover,
+        .navbar nav a:active,
+        .navbar nav a:focus {
+
+            color: #ffffff !important;
+
+            text-decoration: none !important;
+
+            padding: 9px 12px;
+
+            border-radius: 5px;
+
+            font-size: 15px;
+
+        }
+
+
+        .navbar nav a:hover,
+        .navbar nav a.active {
+
+            background-color: rgba(255, 255, 255, 0.2) !important;
+
+            color: #ffffff !important;
+
+        }
+
+
+    </style>
+
 </head>
 
+
 <body>
+
+
+    <!-- ==========================================
+         NAVIGATION BAR
+         ========================================== -->
 
     <header class="navbar">
 
@@ -18,7 +95,9 @@
             Public Infrastructure
         </div>
 
+
         <nav>
+
             <a href="dashboard.html">
                 Dashboard
             </a>
@@ -27,64 +106,195 @@
                 Report Issue
             </a>
 
-            <a href="my-reports.html">
+            <a href="my-reports.html"
+               class="active">
                 My Reports
             </a>
 
-            <a href="report-details.html" class="active">
+            <a href="report-details.html">
                 Track Status
             </a>
 
-            <a href="index.html">
-                Logout
-            </a>
         </nav>
 
     </header>
 
 
-    <main class="details-page">
+    <!-- ==========================================
+         MY REPORTS PAGE
+         ========================================== -->
 
-        <div class="details-container">
+    <main class="my-reports-page">
 
-            <div class="details-heading">
 
-                <h1>Report Details</h1>
+        <div class="my-reports-container">
+
+
+            <!-- HEADING -->
+
+            <div class="page-heading">
+
+                <h1>
+                    My Reports
+                </h1>
 
                 <p>
-                    Track the current status of your report.
+                    View and track all your submitted reports.
                 </p>
 
             </div>
 
 
-            <!-- Report details will appear here -->
+            <!-- REPORTS -->
 
-            <div
-                id="reportDetails"
-                class="report-details-card">
+            <div id="reportsContainer">
 
-                <p>
-                    Loading report details...
-                </p>
+                <!-- Reports will appear here -->
 
             </div>
+
 
         </div>
 
     </main>
 
 
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+
     <footer>
 
         <p>
-            © 2026 Public Infrastructure Reporting System
+            © 2026 Public Infrastructure Issues Reporting System
         </p>
 
     </footer>
 
 
-    <script src="./script.js"></script>
+
+    <script>
+
+        /* ==========================================
+           LOAD REPORTS
+           ========================================== */
+
+        const reportsContainer =
+            document.getElementById("reportsContainer");
+
+
+        let reports =
+            JSON.parse(
+                localStorage.getItem("reports")
+            ) || [];
+
+
+        /* ==========================================
+           NO REPORTS
+           ========================================== */
+
+        if (reports.length === 0) {
+
+            reportsContainer.innerHTML = `
+
+                <div class="no-reports">
+
+                    <h3>
+                        No Reports Found
+                    </h3>
+
+                    <p>
+                        You have not submitted any reports yet.
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+
+        /* ==========================================
+           DISPLAY REPORTS
+           ========================================== */
+
+        else {
+
+            reportsContainer.innerHTML = "";
+
+
+            reports.forEach(function(report) {
+
+                const reportCard =
+                    document.createElement("div");
+
+
+                reportCard.className =
+                    "report-card";
+
+
+                reportCard.innerHTML = `
+
+                    <h2>
+                        ${report.title || "Untitled Report"}
+                    </h2>
+
+                    <p>
+                        <strong>Report ID:</strong>
+                        ${report.id}
+                    </p>
+
+                    <p>
+                        <strong>Category:</strong>
+                        ${report.category || "N/A"}
+                    </p>
+
+                    <p>
+                        <strong>Location:</strong>
+                        ${report.location || "N/A"}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        ${report.status || "Submitted"}
+                    </p>
+
+                    <a
+                        href="report-details.html?id=${report.id}"
+                        class="track-btn"
+                        onclick="saveSelectedReport(${report.id})"
+                    >
+                        Track Status
+                    </a>
+
+                `;
+
+
+                reportsContainer.appendChild(
+                    reportCard
+                );
+
+            });
+
+        }
+
+
+
+        /* ==========================================
+           SELECT REPORT
+           ========================================== */
+
+        function saveSelectedReport(id) {
+
+            localStorage.setItem(
+                "selectedReportId",
+                id
+            );
+
+        }
+
+    </script>
+
 
 </body>
 

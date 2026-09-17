@@ -256,3 +256,14 @@ footer {
         font-size: 26px;
     }
 }
+/* ==========================================
+   NAVBAR LINKS - WHITE COLOR
+   ========================================== */
+
+.navbar nav a,
+.navbar nav a:visited,
+.navbar nav a:hover,
+.navbar nav a:active,
+.navbar nav a:focus {
+    color: white !important;
+}
